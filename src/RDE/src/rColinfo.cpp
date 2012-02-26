@@ -45,9 +45,9 @@ bool Collide( rColinfo &CollisionInfo)
 	//
 	rReal Depth = FLT_MAX;
 
-	//Get the amount of vertices per geomCollisionInfo.getGeom1()
-	int num1 = CollisionInfo.getGeom1()->Geom->getNum();
-	int num2 = CollisionInfo.getGeom2()->Geom->getNum();
+	//Get the amount of vertices per geomCollisionInfo.getBody1()
+	int num1 = CollisionInfo.getBody1()->Geom->getNum();
+	int num2 = CollisionInfo.getBody2()->Geom->getNum();
 
 	//Calculate the to be tested axis. If the geom has 4 sides, we only have to test 2 of them
 	int numa, numb;
@@ -55,8 +55,8 @@ bool Collide( rColinfo &CollisionInfo)
 	if(num2 % 2 == 0)numb = num2/2; else numb = num2;
 
 	// Get meshes of both Bodies
-	rVector *VerticesGeom1 = CollisionInfo.getGeom1()->Mesh;
-	rVector *VerticesGeom2 = CollisionInfo.getGeom2()->Mesh;
+	rVector *VerticesGeom1 = CollisionInfo.getBody1()->Mesh;
+	rVector *VerticesGeom2 = CollisionInfo.getBody2()->Mesh;
 
 	//Create axis array
 	rVector *axis = new rVector[numa+numb];

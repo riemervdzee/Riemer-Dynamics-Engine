@@ -32,18 +32,19 @@
 class rColinfo
 {
 private:
-	rBody	*geom1, *geom2;
+	rBody	*body1, *body2;
 public:
 
 	rVector	Force;
 	rReal	Depth;
 
-	rBody* getGeom1() const {return geom1;}
-	rBody* getGeom2() const {return geom2;}
+	// Return bodies
+	rBody* getBody1() const { return body1;}
+	rBody* getBody2() const { return body2;}
 
-	rColinfo(): geom1( NULL), geom2( NULL){};
-	rColinfo( rBody* _geom1, rBody* _geom2): geom1(_geom1), geom2(_geom2){};
-	rColinfo( rBody* _geom1, rBody* _geom2, rVector _Force): geom1(_geom1), geom2(_geom2), Force(_Force){};
+	rColinfo(): body1( NULL), body2( NULL), Depth(0){};
+	rColinfo( rBody* _body1, rBody* _body2): body1(_body1), body2(_body2), Depth(0){};
+	rColinfo( rBody* _body1, rBody* _body2, rVector _Force): body1(_body1), body2(_body2), Force(_Force){};
 };
 
 //Prototypes

@@ -34,16 +34,16 @@
 rVector CollisionPoint( const rColinfo &CollisionInfo)
 {
 	//
-	int numA = CollisionInfo.getGeom1()->Geom->getNum();
-	int numB = CollisionInfo.getGeom2()->Geom->getNum();
+	int numA = CollisionInfo.getBody1()->Geom->getNum();
+	int numB = CollisionInfo.getBody2()->Geom->getNum();
 
 	//Temp pointers instead of pointers given by functions, limits chances that variables are getting reloaded -> hopefully faster execution
-	//rMatrix OrientA = CollisionInfo.getGeom1()->Orientation;
-	//rMatrix OrientB = CollisionInfo.getGeom2()->Orientation;
-	rVector *VertA	= CollisionInfo.getGeom1()->Mesh;
-	rVector *VertB	= CollisionInfo.getGeom2()->Mesh;
-	rVector PosA	= CollisionInfo.getGeom1()->Position;
-	rVector PosB	= CollisionInfo.getGeom2()->Position;
+	//rMatrix OrientA = CollisionInfo.getBody1()->Orientation;
+	//rMatrix OrientB = CollisionInfo.getBody2()->Orientation;
+	rVector *VertA	= CollisionInfo.getBody1()->Mesh;
+	rVector *VertB	= CollisionInfo.getBody2()->Mesh;
+	rVector PosA	= CollisionInfo.getBody1()->Position;
+	rVector PosB	= CollisionInfo.getBody2()->Position;
 
 	//Normalize the Force vector
 	rVector Normal	= CollisionInfo.Force;

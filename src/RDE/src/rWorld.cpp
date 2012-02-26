@@ -123,8 +123,8 @@ void rWorld::CollideAndStep( rReal dt)
 		drawPixelRed( CollisionPoint.getX(), CollisionPoint.getY());
 
 		// Process the collisionpoint
-		ProcessCollisionPoint(	CollisionArray[i].getGeom1(),
-								CollisionArray[i].getGeom2(),
+		ProcessCollisionPoint(	CollisionArray[i].getBody1(),
+								CollisionArray[i].getBody2(),
 								CollisionPoint,
 								CollisionArray[i].Force,
 								dt);
