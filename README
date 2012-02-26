@@ -1,3 +1,37 @@
-RDE: a 2d c++ dynamics engine for rigid bodies (more info will follow)
+========================================
+Welcome to the RDE project!
+========================================
 
-To build: cd to Release, do "make" then run ./PhysicsEngine
+RDE: a 2d c++ dynamics engine for rigid bodies
+
+
+========================================
+Folder setup:
+========================================
+./src/			holds all source of RDE, the graphics back-end and the tutorial
+./Release/		holds linux makes script
+./src/RDE/		the RDE project itself
+./src/graphics/	Graphics back-end
+
+./src/RDE/ has both an include/ and a src/ folder again, this is a default library setup
+
+========================================
+Install notes for *nix like environments
+========================================
+
+Make sure before you start you have the following packages installed:
+- GCC/G++ (the compiler..)
+- Make 
+- SDL
+- SDL_dev
+
+Step 1: Fire up a Console
+Step 2: CD to RDE/Release (where RDE is the downloaded Repo)
+Step 3: Type in "make", a lot of lines should pop up. No worries it is just compiling the source to a binary.
+Step 4: When 3 was successful (no errors), there should be a Physics program in the same folder as the makefile.
+Run it by "./PhysicsEngine" or launch it as you would do like a normal program.
+
+If step 3 failed, try to see if you are missing any packages.
+If launching the program failed, as in it quits right away or some error messages pop up, try to launch the program
+from the console and check if any messages appear from the program.
+If there is a direct error that it could not find any lib, try to check if you have openGL support.
