@@ -1,1 +1,3 @@
 RDE: a 2d c++ dynamics engine for rigid bodies (more info will follow)
+
+To build: cd to Release, do "make" then run ./PhysicsEngine
