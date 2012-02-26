@@ -30,7 +30,7 @@
  * Copy constructor, since we deal with pointers
  */
 rGeometry::rGeometry( const rGeometry &G)
-	: Num( G.Num), Vertices( new rVector[ G.Num])
+	: Vertices( new rVector[ G.Num]), Num( G.Num)
 {
 	std::copy( G.Vertices, G.Vertices + G.Num, Vertices);
 }
