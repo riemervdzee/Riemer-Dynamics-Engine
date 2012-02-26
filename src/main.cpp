@@ -35,6 +35,8 @@ rGeometry GeomWorld1, GeomWorld2, GeomMain, GeomBlocks, GeomBlocks2;
 rBody BodyWorld1, BodyWorld2, BodyWorld3, BodyWorld4, BodyMain;
 rBody Body1, Body2, Body3, Body4, Body5, Body6;*/
 
+/*
+ * todo: actually use these..
 void init() {
 
 }
@@ -45,7 +47,7 @@ void update() {
 
 void draw() {
 
-}
+}*/
 
 /*
  * Main Entry: added the Argc and Argv variables as arguments as SDL wants it that way
@@ -114,7 +116,7 @@ int main( int argc, char **argv )
 	World.Add( Body6);
 
 	// Initialize
-	init();
+	//init();
 
 	// Step
 	while( INPUT_STOP == false)
@@ -146,8 +148,8 @@ int main( int argc, char **argv )
 		World.CollideAndStep( 0.01);
 
 		// Not used yet
-		update();
-		draw();
+		//update();
+		//draw();
 
 		// Flip the screen
 		window_flip();

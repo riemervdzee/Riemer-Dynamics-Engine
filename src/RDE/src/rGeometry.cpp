@@ -24,13 +24,15 @@
  */
 
 #include "../include/rGeometry.h"
+#include <algorithm>
 
 /*
- * TODO Copy constructor, since we deal with pointers
+ * Copy constructor, since we deal with pointers
  */
 rGeometry::rGeometry( const rGeometry &G)
+	: Num( G.Num), Vertices( new rVector[ G.Num])
 {
-
+	std::copy( G.Vertices, G.Vertices + G.Num, Vertices);
 }
 
 /*
@@ -38,7 +40,7 @@ rGeometry::rGeometry( const rGeometry &G)
  */
 rGeometry::~rGeometry()
 {
-	//Only delete Vertices when it contains data
+	// Only delete Vertices when it contains data
 	if( Vertices != NULL)
 	{
 		delete[] Vertices;
@@ -50,18 +52,18 @@ rGeometry::~rGeometry()
  */
 void rGeometry::CreatePolygon (int Number, rReal Radius)
 {
-	//StepSize between points (in Radians) and current stepPosition(will be incremented with stepsize every step)
+	// StepSize between points (in Radians) and current stepPosition(will be incremented with stepsize every step)
 	rReal stepSize	= M_PI * 2 / Number;
 	rReal stepPos	= 0;
 
-	//Create vector array and set VerticeData to true
+	// Create vector array and set VerticeData to true
 	Vertices	= new rVector[Number];
 	Num			= Number;
 
-	//Calculate positions
+	// Calculate positions
 	for( int i = 0; i < Number; i++, stepPos += stepSize)
 	{
-		//Calculate sinus and cosinus of the current step
+		// Calculate sinus and cosinus of the current step
 		rReal c = cos( stepPos) * Radius;
 		rReal s = sin( stepPos) * Radius;
 
@@ -76,15 +78,15 @@ void rGeometry::CreatePolygon (int Number, rReal Radius)
  */
 void rGeometry::CreateBox (rReal Width, rReal Height)
 {
-	//Create vector array and set VerticeData to true
+	// Create vector array and set VerticeData to true
 	Vertices	= new rVector[4];
 	Num			= 4;
 
-	//half the width and height values
+	// half the width and height values
 	Width  /= 2;
 	Height /= 2;
 
-	//Create Vertices list
+	// Create Vertices list
 	Vertices[0] = rVector(  Width, -Height);
 	Vertices[1] = rVector(  Width,  Height);
 	Vertices[2] = rVector( -Width,  Height);
