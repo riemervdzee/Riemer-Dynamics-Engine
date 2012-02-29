@@ -25,12 +25,8 @@
 
 #include "gVideo.h"
 #include "../RDE/include/types/rVector.h"
-//#include "../RDE/include/types/rMatrix.h"
 #include <SDL/SDL.h>
 #include <GL/gl.h>
-#include <GL/glu.h>
-#include <cmath>
-#include <cstdlib>
 using namespace std;
 
 /*
@@ -156,7 +152,6 @@ void drawGeom ( rBody &body)
 	for(int i = 0; i < N; ++i)
 	{
 		glVertex2f( V[i].getX(), V[i].getY());
-
 	}
 
 	//End drawing
