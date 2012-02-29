@@ -69,6 +69,9 @@ public:
 
 	// Recalculate mesh
 	void CalculateMesh();
+
+	// Calculate mesh, just adds an extra offset to the mesh (translations etc.) is faster
+	void CalculateMeshTranslation( rVector offset);
 };
 
 #endif /* R_BODY_H_ */

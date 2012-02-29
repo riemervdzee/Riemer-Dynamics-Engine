@@ -108,8 +108,8 @@ void rWorld::CollideAndStep( rReal dt)
 		{
 			rBody* body = StateArray[i];
 			body->Position += body->Force_T;
-			body->Force_T	= rVector(0, 0);
-			body->CalculateMesh();
+			body->CalculateMeshTranslation( body->Force_T);
+			body->Force_T = rVector( 0, 0);
 		}
 	}
 

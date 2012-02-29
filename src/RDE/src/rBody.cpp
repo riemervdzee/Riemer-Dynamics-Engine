@@ -83,6 +83,16 @@ void rBody::CalculateMesh()
 		Mesh[i] = Orientation.Rotate( Vertices[i]) + Position;
 }
 
+/**
+ * Calculate mesh, just adds an extra offset to the mesh (translations etc.) is faster
+ */
+void rBody::CalculateMeshTranslation( rVector offset)
+{
+	// Convert geom1 vertices to world space
+	for(int i = 0; i < MeshNum; i++)
+		Mesh[i] += offset;
+}
+
 /*
  * Euler stepping code to update the body
  */
