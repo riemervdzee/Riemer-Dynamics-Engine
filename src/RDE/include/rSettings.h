@@ -38,7 +38,7 @@ typedef float rReal;
 
 // Values
 const rReal EPSILON	= 0.0001; // Standard used Epsilon value
-const rReal ERP		= 0.8;    // Error Reduction Parameter
+const rReal ERP		= 0.9;    // Error Reduction Parameter
 const int   ERI		= 10;     // Error Reduction Iterations
 
 #endif /* R_SETTINGS_H_ */
