@@ -29,6 +29,9 @@
 // Should we use doubles instead of floats?
 #define REAL_DOUBLE
 
+// Should we save the collision points?
+#define R_SAVE_COLLISIONPOINTS
+
 // Determine val
 #ifdef REAL_DOUBLE
 typedef double rReal;

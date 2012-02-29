@@ -35,24 +35,30 @@
 
 class rWorld {
 private:
+	// Holds the "state" of the simulation, containing all bodies etc.
 	std::vector <rBody*> StateArray;
 
 	// CollisionVector
 	std::vector <rColinfo> CollisionArray;
 
+	// Gravity pull added to each body
 	rVector Gravity;
-
 public:
+	// Constructor de-constructor
 	inline	rWorld( rVector grav): Gravity(grav){}
-
 	~rWorld();
 
+	// Functions for adding and removing bodies
 	void	Add		( rBody& body);
 	void	Remove	( rBody& body);
 
-	//void	Step( rReal dt);
-
+	// Move the simulation forward in time by amount dt
 	void	CollideAndStep( rReal dt);
+
+	// Based on settings, save the collision points
+#ifdef R_SAVE_COLLISIONPOINTS
+	std::vector <rVector> CollisionPoints;
+#endif
 
 };
 

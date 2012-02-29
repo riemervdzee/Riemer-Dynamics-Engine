@@ -26,9 +26,6 @@
 #include "../include/rWorld.h"
 #include <algorithm>
 
-//TODO: prototype for drawing collisionpoints
-void drawPixelRed ( float x, float y);
-
 /*
  * Deconstructor
  */
@@ -113,14 +110,21 @@ void rWorld::CollideAndStep( rReal dt)
 		}
 	}
 
-	// Get collisionpoints and process them
+	// Clear CollisionPoints
+#ifdef R_SAVE_COLLISIONPOINTS
+	CollisionPoints.clear();
+#endif
+
+	// Get collision points and process them
 	for( unsigned int i = 0; i < CollisionArray.size(); i++)
 	{
-		// Get collisionpoint
+		// Get collision point
 		rVector CollisionPoint = ::CollisionPoint( CollisionArray[i]);
 
-		// TODO: Draws collision point (DEBUG)
-		drawPixelRed( CollisionPoint.getX(), CollisionPoint.getY());
+		// Add current collision point to the array
+#ifdef R_SAVE_COLLISIONPOINTS
+		CollisionPoints.push_back( CollisionPoint);
+#endif
 
 		// Process the collisionpoint
 		ProcessCollisionPoint(	CollisionArray[i].getBody1(),

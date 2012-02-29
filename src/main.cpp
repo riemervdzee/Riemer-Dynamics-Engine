@@ -30,6 +30,9 @@
 #include "graphics/gInput.h"
 using namespace std;
 
+// Create world
+rWorld World( rVector( 0, -125));
+
 /*rWorld World( rVector( 0, -125));
 rGeometry GeomWorld1, GeomWorld2, GeomMain, GeomBlocks, GeomBlocks2;
 rBody BodyWorld1, BodyWorld2, BodyWorld3, BodyWorld4, BodyMain;
@@ -43,11 +46,16 @@ void init() {
 
 void update() {
 
-}
+}*/
 
 void draw() {
-
-}*/
+	// Draw collision points
+	for( unsigned int i = 0; i < World.CollisionPoints.size(); ++i)
+	{
+		rVector v = World.CollisionPoints.at( i);
+		drawPixelRed( v.getX(), v.getY());
+	}
+}
 
 /*
  * Main Entry: added the Argc and Argv variables as arguments as SDL wants it that way
@@ -61,8 +69,7 @@ int main( int argc, char **argv )
 	if( window_create( caption.c_str() ))
 		exit (0);
 
-	// Create world
-	rWorld World( rVector( 0, -125));
+
 
 	// Create geometries
 	rGeometry GeomWorld1, GeomWorld2, GeomMain, GeomBlocks, GeomBlocks2;
@@ -130,6 +137,9 @@ int main( int argc, char **argv )
 		if(KEY_UP	) BodyMain.LinVelocity += rVector( 0, 9);
 		if(KEY_DOWN	) BodyMain.LinVelocity -= rVector( 0, 4);
 
+		// Let the bodies collide
+		World.CollideAndStep( 0.01);
+
 		// Draw geoms
 		drawGeom( BodyWorld1);
 		drawGeom( BodyWorld2);
@@ -143,13 +153,9 @@ int main( int argc, char **argv )
 		drawGeom( Body5);
 		drawGeom( Body6);
 
-		// Let the bodies collide
-		// TODO first collideAndStep then Draw geoms
-		World.CollideAndStep( 0.01);
-
 		// Not used yet
 		//update();
-		//draw();
+		draw();
 
 		// Flip the screen
 		window_flip();
