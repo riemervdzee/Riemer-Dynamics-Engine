@@ -78,7 +78,7 @@ public:
 	inline rReal Length(void) const {return (rReal) sqrt(x*x + y*y); }
 
 	// Return squared length
-	inline rReal LengthSquared(void) const {return (rReal) x*x + y*y; }
+	inline rReal LengthSquared(void) const {return x*x + y*y; }
 
 	// Normalize
 	rVector& setLength( rReal len)
