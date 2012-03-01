@@ -69,11 +69,21 @@ void rWorld::CollideAndStep( rReal dt)
 		}
 	}
 
+	// Clear collisions from last time
+	CollisionArray.clear();
+
+	// Clear CollisionPoints
+#ifdef R_SAVE_COLLISIONPOINTS
+	CollisionPoints.clear();
+#endif
+
 	// Overlapping Solving Code. Inner loop for how many iterations requested to solve any errors
 	for(int iterations = 0; iterations < ERI; iterations++)
 	{
-		//
-		CollisionArray.clear();
+		// If we are at the last iteration, save collisions
+		bool push = false;
+		if (iterations == ERI - 1)
+			push = true;
 
 		// Two loops to let everybody check with anyother
 		for( unsigned int i = 0; i < StateArray.size(); i++)
@@ -90,7 +100,7 @@ void rWorld::CollideAndStep( rReal dt)
 					rColinfo CollisionInfo( StateArray[i], StateArray[j]);
 
 					// Check if we have a collision by Separating Axis Test, if so store information in the collision package
-					if(::Collide(CollisionInfo))
+					if(::Collide( CollisionInfo))
 					{
 						// Are we overlapping?
 						if( CollisionInfo.Depth > EPSILON)
@@ -100,7 +110,9 @@ void rWorld::CollideAndStep( rReal dt)
 							StateArray[j]->Force_T -= CollisionInfo.Force * (StateArray[j]->InvMass / MassRatio) * ERP;
 						}
 
-						CollisionArray.push_back( CollisionInfo);
+						// Should we push?
+						if ( push)
+							CollisionArray.push_back( CollisionInfo);
 					}
 				}
 			}
@@ -120,11 +132,6 @@ void rWorld::CollideAndStep( rReal dt)
 			}
 		}
 	}
-
-	// Clear CollisionPoints
-#ifdef R_SAVE_COLLISIONPOINTS
-	CollisionPoints.clear();
-#endif
 
 	// Get collision points and process them
 	for( unsigned int i = 0; i < CollisionArray.size(); i++)
