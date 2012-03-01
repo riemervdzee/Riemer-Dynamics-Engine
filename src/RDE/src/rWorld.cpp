@@ -39,6 +39,7 @@ rWorld::~rWorld()
  */
 void rWorld::Add (rBody& body)
 {
+	body.CalculateMesh();
 	StateArray.push_back( &body);
 }
 
@@ -59,13 +60,14 @@ void rWorld::CollideAndStep( rReal dt)
 	// Update bodies
 	for(unsigned int i = 0; i < StateArray.size(); i++)
 	{
-		// Let the body do a step with the time and current gravity
-		StateArray[i]->Step(dt, Gravity);
+		// If not a static body
+		if( StateArray[i]->InvMass > 0)
+		{
+			// Let the body do a step with the time and current gravity
+			StateArray[i]->Step( dt, Gravity);
+			StateArray[i]->CalculateMesh();
+		}
 	}
-
-	//
-	for( unsigned int i = 0; i < StateArray.size(); i++)
-		StateArray[i]->CalculateMesh();
 
 	// Overlapping Solving Code. Inner loop for how many iterations requested to solve any errors
 	for(int iterations = 0; iterations < ERI; iterations++)
@@ -78,24 +80,28 @@ void rWorld::CollideAndStep( rReal dt)
 		{
 			for( unsigned int j = i+1; j < StateArray.size(); j++)
 			{
-				// Create a collision package between the 2 bodies in line to be tested
-				rColinfo CollisionInfo( StateArray[i], StateArray[j]);
+				// Sum of both bodies INV mass
+				rReal MassRatio = StateArray[i]->InvMass + StateArray[j]->InvMass;
 
-				// Check if we have a collision by Separating Axis Test, if so store information in the collision package
-				if(::Collide(CollisionInfo))
+				// Check if a body is movable
+				if (MassRatio > 0)
 				{
-					// Sum of both bodies INV mass
-					rReal MassRatio = StateArray[i]->InvMass + StateArray[j]->InvMass;
+					// Create a collision package between the 2 bodies in line to be tested
+					rColinfo CollisionInfo( StateArray[i], StateArray[j]);
 
-					// Are we overlapping? if so, check if both bodies are move-able
-					if( CollisionInfo.Depth > EPSILON && MassRatio > 0)
+					// Check if we have a collision by Separating Axis Test, if so store information in the collision package
+					if(::Collide(CollisionInfo))
 					{
-						//Save required translations to solve any errors
-						StateArray[i]->Force_T += CollisionInfo.Force * (StateArray[i]->InvMass / MassRatio) * ERP;
-						StateArray[j]->Force_T -= CollisionInfo.Force * (StateArray[j]->InvMass / MassRatio) * ERP;
-					}
+						// Are we overlapping?
+						if( CollisionInfo.Depth > EPSILON)
+						{
+							//Save required translations to solve any errors
+							StateArray[i]->Force_T += CollisionInfo.Force * (StateArray[i]->InvMass / MassRatio) * ERP;
+							StateArray[j]->Force_T -= CollisionInfo.Force * (StateArray[j]->InvMass / MassRatio) * ERP;
+						}
 
-					CollisionArray.push_back( CollisionInfo);
+						CollisionArray.push_back( CollisionInfo);
+					}
 				}
 			}
 		}
@@ -104,9 +110,14 @@ void rWorld::CollideAndStep( rReal dt)
 		for( unsigned int i = 0; i < StateArray.size(); i++)
 		{
 			rBody* body = StateArray[i];
-			body->Position += body->Force_T;
-			body->CalculateMeshTranslation( body->Force_T);
-			body->Force_T = rVector( 0, 0);
+
+			// If there is a
+			if( body->Force_T.LengthSquared() > 0)
+			{
+				body->Position += body->Force_T;
+				body->CalculateMeshTranslation( body->Force_T);
+				body->Force_T = rVector( 0, 0);
+			}
 		}
 	}
 
