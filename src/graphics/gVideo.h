@@ -1,5 +1,5 @@
 /*
-  video.cpp -- Graphics back-end for tutorial purposes
+  gVideo.h -- Graphics back-end for tutorial purposes
 
   Copyright (c) 2011-2012 Riemer van der Zee <riemervdzee@gmail.com>
 
@@ -26,15 +26,9 @@
 #ifndef GRAPH_VIDEO_H_
 #define GRAPH_VIDEO_H_
 
-
 #include "../RDE/include/rBody.h"
-#include <SDL/SDL.h>
 
-bool window_create( const char* caption);
-void window_clear();
-void window_flip();
 void drawPixel    ( float  x, float  y);
-void drawPixelRed ( float  x, float  y);
 void drawLine     ( float x0, float y0, float x1, float y1);
 void drawGeom     ( rBody &body);
 

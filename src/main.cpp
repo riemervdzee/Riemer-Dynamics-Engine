@@ -26,8 +26,7 @@
 #include <SDL/SDL.h>
 #include <string>
 #include "RDE/include/rde.h"
-#include "graphics/gVideo.h"
-#include "graphics/gInput.h"
+#include "graphics/graphics.h"
 using namespace std;
 
 // Create world
@@ -53,7 +52,7 @@ void draw() {
 	for( unsigned int i = 0; i < World.CollisionPoints.size(); ++i)
 	{
 		rVector v = World.CollisionPoints.at( i);
-		drawPixelRed( v.getX(), v.getY());
+		drawPixel( v.getX(), v.getY());
 	}
 }
 

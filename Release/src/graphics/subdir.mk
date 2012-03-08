@@ -5,15 +5,18 @@
 # Add inputs and outputs from these tool invocations to the build variables 
 CPP_SRCS += \
 ../src/graphics/gInput.cpp \
-../src/graphics/gVideo.cpp 
+../src/graphics/gVideo.cpp \
+../src/graphics/gWindow.cpp 
 
 OBJS += \
 ./src/graphics/gInput.o \
-./src/graphics/gVideo.o 
+./src/graphics/gVideo.o \
+./src/graphics/gWindow.o 
 
 CPP_DEPS += \
 ./src/graphics/gInput.d \
-./src/graphics/gVideo.d 
+./src/graphics/gVideo.d \
+./src/graphics/gWindow.d 
 
 
 # Each subdirectory must supply rules for building sources it contributes

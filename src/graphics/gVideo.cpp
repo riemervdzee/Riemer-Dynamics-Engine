@@ -1,5 +1,5 @@
 /*
-  video.cpp -- Graphics back-end for tutorial purposes
+  gVideo.cpp -- Graphics back-end for tutorial purposes
 
   Copyright (c) 2011-2012 Riemer van der Zee <riemervdzee@gmail.com>
 
@@ -25,93 +25,18 @@
 
 #include "gVideo.h"
 #include "../RDE/include/types/rVector.h"
-#include <SDL/SDL.h>
 #include <GL/gl.h>
 using namespace std;
-
-/*
- * Creates a window
- */
-bool window_create( const char* Caption)
-{
-	// Initialize SDL with video support
-	if( SDL_Init( SDL_INIT_VIDEO ) != 0 )
-	{
-		printf( "Could not initialize SDL. Quitting...\n");
-		return true;
-	}
-
-	// Let SDL quit when we finish this program
-	atexit( SDL_Quit);
-
-	// All values are "at least"
-	SDL_GL_SetAttribute( SDL_GL_DOUBLEBUFFER, 1 );
-	SDL_GL_SetAttribute( SDL_GL_RED_SIZE,	5);
-	SDL_GL_SetAttribute( SDL_GL_GREEN_SIZE,	5);
-	SDL_GL_SetAttribute( SDL_GL_BLUE_SIZE,	5);
-
-	// Create video context with OpenGL
-	if( SDL_SetVideoMode( 800, 600, 0, SDL_OPENGL ) != NULL)
-	{
-		// OpenGL extra things
-		glShadeModel( GL_SMOOTH);
-		glClearColor( 1, 1, 1, 1);
-
-		glViewport( 0, 0, 800, 600);
-		glMatrixMode( GL_PROJECTION);
-		glLoadIdentity();
-		glOrtho( 0, 800, 0, 600, -1, 1);
-		glMatrixMode( GL_MODELVIEW);
-		glLoadIdentity();
-
-		glEnable( GL_POINT_SMOOTH);
-	}
-	else
-	{
-		// Failed initializing OpenGL
-		printf( "Could not initialize OpenGL, make sure you use the latest video drivers");
-		return true;
-	}
-
-	// Set the title
-	SDL_WM_SetCaption( Caption, NULL);
-
-	// Return
-	return false;
-}
-
-/*
- * Flips buffers
- */
-void window_flip()
-{
-	SDL_GL_SwapBuffers();
-	glLoadIdentity();
-	glClear( GL_COLOR_BUFFER_BIT );
-}
 
 /*
  * Draws a pixel
  */
 void drawPixel( float x, float y)
 {
-	glColor3f( 0, 0, 1);
+	glColor3f( 1, 0, 0);
 	glPointSize( 2.0);
 
 	glBegin( GL_POINTS);
-		glVertex2f( x, y);
-	glEnd();
-}
-
-/*
- * Draws a red pixel
- */
-void drawPixelRed( float x, float y)
-{
-	glColor3f( 1, 0, 0);
-	glPointSize(2.0);
-
-	glBegin(GL_POINTS);
 		glVertex2f( x, y);
 	glEnd();
 }
