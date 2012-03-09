@@ -1,5 +1,5 @@
 /*
-  graphics.h --
+  graphics.h -- Header file for the Graphics back-end
 
   Copyright (c) 2011-2012 Riemer van der Zee <riemervdzee@gmail.com>
 
@@ -26,8 +26,37 @@
 #ifndef GRAPH_H_
 #define GRAPH_H_
 
-#include "gVideo.h"
-#include "gInput.h"
-#include "gWindow.h"
+#include "../RDE/include/rBody.h"
+
+// Available colors
+enum gColor {
+	gWHITE,
+	gBLACK,
+	gRED,
+	gLIMEGREEN,
+	gFIREBRICK,
+};
+
+// All handled inputs
+extern bool INPUT_STOP;	// Should we stop the simulation?
+extern bool KEY_R;		// Is the R button pressed
+extern bool KEY_LEFT;	// Key flags
+extern bool KEY_RIGHT;
+extern bool KEY_UP;
+extern bool KEY_DOWN;
+
+// Prototypes for windowing code
+bool window_create( const char* caption);
+void window_flip();
+
+// Prototype for input updating
+void InputUpdate();
+
+// Functions concerning drawing
+void drawPixel		( float  x, float  y);
+void drawLine		( float x0, float y0, float x1, float y1);
+void drawGeom		( rBody &body);
+void drawSetColor	( gColor col);
+
 
 #endif /* GRAPH_H_ */
