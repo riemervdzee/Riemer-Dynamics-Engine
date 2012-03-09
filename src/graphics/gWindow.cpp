@@ -23,7 +23,6 @@
         distribution.
  */
 
-#include "gWindow.h"
 #include <SDL/SDL.h>
 #include <GL/gl.h>
 using namespace std;

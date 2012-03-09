@@ -23,7 +23,7 @@
         distribution.
  */
 
-#include "gVideo.h"
+#include "graphics.h"
 #include "../RDE/include/types/rVector.h"
 #include <GL/gl.h>
 using namespace std;
