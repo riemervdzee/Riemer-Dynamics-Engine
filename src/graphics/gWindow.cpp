@@ -64,6 +64,7 @@ bool window_create( const char* Caption)
 		glLoadIdentity();
 
 		glEnable( GL_POINT_SMOOTH);
+		glPointSize( 2.0);
 	}
 	else
 	{

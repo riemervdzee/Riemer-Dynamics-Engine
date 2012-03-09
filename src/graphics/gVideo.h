@@ -28,9 +28,20 @@
 
 #include "../RDE/include/rBody.h"
 
-void drawPixel    ( float  x, float  y);
-void drawLine     ( float x0, float y0, float x1, float y1);
-void drawGeom     ( rBody &body);
+// Available colors
+enum gColor {
+	gWHITE,
+	gBLACK,
+	gRED,
+	gLIMEGREEN,
+	gFIREBRICK,
+};
+
+// Functions concerning drawing
+void drawPixel		( float  x, float  y);
+void drawLine		( float x0, float y0, float x1, float y1);
+void drawGeom		( rBody &body);
+void drawSetColor	( gColor col);
 
 #endif /* GRAPH_VIDEO_H_*/
 

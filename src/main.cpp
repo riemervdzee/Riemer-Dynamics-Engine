@@ -48,6 +48,9 @@ void update() {
 }*/
 
 void draw() {
+	// Set red color
+	drawSetColor( gRED);
+
 	// Draw collision points
 	for( unsigned int i = 0; i < World.CollisionPoints.size(); ++i)
 	{
@@ -67,8 +70,6 @@ int main( int argc, char **argv )
 	// Create a window
 	if( window_create( caption.c_str() ))
 		exit (0);
-
-
 
 	// Create geometries
 	rGeometry GeomWorld1, GeomWorld2, GeomMain, GeomBlocks, GeomBlocks2;
@@ -140,11 +141,14 @@ int main( int argc, char **argv )
 		World.CollideAndStep( 0.01);
 
 		// Draw geoms
+		drawSetColor( gLIMEGREEN);
 		drawGeom( BodyWorld1);
 		drawGeom( BodyWorld2);
 		drawGeom( BodyWorld3);
 		drawGeom( BodyWorld4);
+		drawSetColor( gFIREBRICK);
 		drawGeom( BodyMain);
+		drawSetColor( gLIMEGREEN);
 		drawGeom( Body1);
 		drawGeom( Body2);
 		drawGeom( Body3);

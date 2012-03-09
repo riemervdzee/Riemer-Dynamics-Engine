@@ -33,9 +33,6 @@ using namespace std;
  */
 void drawPixel( float x, float y)
 {
-	glColor3f( 1, 0, 0);
-	glPointSize( 2.0);
-
 	glBegin( GL_POINTS);
 		glVertex2f( x, y);
 	glEnd();
@@ -46,7 +43,6 @@ void drawPixel( float x, float y)
  */
 void drawLine( float x0, float y0, float x1, float y1)
 {
-	glColor3f( 1, 0, 0);
 	glBegin(GL_LINES);
 		glVertex2f( x0, y0);
 		glVertex2f( x1, y1);
@@ -65,21 +61,54 @@ void drawGeom ( rBody &body)
 	rVector	*V	= body.Mesh;
 	int		 N	= body.MeshNum;
 
-	//Initialize color and start drawing
-	glColor3f( 0.92, 0.97, 0.35);
+	// Start drawing
 	glBegin( GL_TRIANGLE_FAN);
 
 	// Start with middle and last
 	glVertex2f( body.Position.getX(), body.Position.getY());
 	glVertex2f( V[N-1].getX(), V[N-1].getY());
 
-	//Loop through the vertices
+	// Loop through the vertices
 	for(int i = 0; i < N; ++i)
 	{
 		glVertex2f( V[i].getX(), V[i].getY());
 	}
 
-	//End drawing
+	// End drawing
 	glEnd();
 }
 
+/*
+ * Sets the current drawing color
+ */
+void drawSetColor ( gColor col)
+{
+	// Variables
+	float R, G, B;
+
+	// Determine which color to use
+	switch ( col)
+	{
+	case gWHITE:
+		R = G = B = 1;
+		break;
+	case gBLACK:
+		R = G = B = 0;
+		break;
+	case gRED:
+		R = 1; G = B = 0;
+		break;
+	case gLIMEGREEN:
+		R = 0.92; G = 0.97; B = 0.35;
+		break;
+	case gFIREBRICK:
+		R = 0.88; G = 0.35; B = 0.13;
+		break;
+	default:
+		return;
+		break;
+	}
+
+	// Set the actual color
+	glColor3f( R, G, B);
+}
