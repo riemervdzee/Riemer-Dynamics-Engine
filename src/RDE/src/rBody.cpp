@@ -25,13 +25,13 @@
 
 #include "../include/rSettings.h"
 #include "../include/rBody.h"
-#include <math.h>
+using namespace std;
 
 /*
  * Calculates mass and inertia from the vertices attached to this body.
  */
 rBody::rBody( rGeometry &geom, rMaterial &mat)
-	: AngVelocity(0), Force_A(0), Geom( &geom), Mat (&mat)
+	: AngVelocity( 0), Force_A( 0), Geom( &geom), Mat ( &mat)
 {
 	// Make room for a local copy of the geometry
 	Mesh	   = new rVector[ geom.getNum()];
@@ -40,14 +40,16 @@ rBody::rBody( rGeometry &geom, rMaterial &mat)
 	// Vectors of geometry
 	rVector *A = geom.getVertices();
 
-	// If density is infinite (0), put everything on 0
-	if(Mat->getDensity() == 0)
+	// If density is infinite (0)
+	if( Mat->getDensity() == 0)
 	{
+		// Put everything on 0
 		Mass = Inertia = InvMass = InvInertia = 0;
 	}
-	// If amount of vertices is 1 or 2
+	// If amount of vertices is lower than 3
 	else if ( MeshNum < 3)
 	{
+		// Some basic values
 		Mass    = 5.0f * mat.getDensity();
 		InvMass = 1 / Mass;
 		Inertia = InvInertia = 0;
@@ -55,6 +57,8 @@ rBody::rBody( rGeometry &geom, rMaterial &mat)
 	// Otherwise calculate it
 	else
 	{
+		// denom = denominator for Inertia
+		// numer = numerator for Inertia and used for the Mass (area)
 		rReal denom = 0.0f;
 		rReal numer = 0.0f;
 
@@ -63,16 +67,15 @@ rBody::rBody( rGeometry &geom, rMaterial &mat)
 		for( int j = MeshNum-1, i = 0; i < MeshNum; j = i, i++)
 		{
 			// The vectors
-			rVector P0 = A[j];
-			rVector P1 = A[i];
+			rVector P0 = A[ j];
+			rVector P1 = A[ i];
 
 			// Cross product and DOT
-			rReal a = fabs(P0.Cross(P1));
-			rReal b = (P1.Dot(P1) + P1.Dot(P0) + P0.Dot(P0));
+			rReal a = fabs( P0.Cross( P1));
+			rReal b = P1.Dot( P1) + P1.Dot( P0) + P0.Dot( P0);
 
-			// denom = denominator for Inertia
-			// numer = numerator for Inertia and used for the Mass (area)
-			denom += (a * b);
+			// Add to denom/numer
+			denom += a * b;
 			numer += a;
 		}
 
@@ -91,11 +94,7 @@ rBody::rBody( rGeometry &geom, rMaterial &mat)
  */
 rBody::~rBody()
 {
-	// Only delete Vertices when it contains data
-	if( Mesh != NULL)
-	{
-		delete[] Mesh;
-	}
+	delete[] Mesh;
 }
 
 /**
@@ -107,7 +106,7 @@ void rBody::CalculateMesh()
 	rVector *Vertices	= Geom->getVertices();
 
 	// Convert geom1 vertices to world space
-	for(int i = 0; i < MeshNum; i++)
+	for( int i = 0; i < MeshNum; i++)
 		Mesh[i] = Orientation.Rotate( Vertices[i]) + Position;
 }
 
@@ -117,7 +116,7 @@ void rBody::CalculateMesh()
 void rBody::CalculateMeshTranslation( rVector offset)
 {
 	// Convert geom1 vertices to world space
-	for(int i = 0; i < MeshNum; i++)
+	for( int i = 0; i < MeshNum; i++)
 		Mesh[i] += offset;
 }
 
@@ -126,18 +125,18 @@ void rBody::CalculateMeshTranslation( rVector offset)
  */
 void rBody::Step( rReal dt, rVector Gravity)
 {
-	Position += LinVelocity*dt;
+	Position += LinVelocity * dt;
 
-	rReal c = cos(AngVelocity*dt);
-	rReal s = sin(AngVelocity*dt);
-	Orientation *= rMatrix(c, s);
+	rReal c = cos( AngVelocity * dt);
+	rReal s = sin( AngVelocity * dt);
+	Orientation *= rMatrix( c, s);
 
 	Orientation.Normalize();
 
 	//Gravity pull
-	if(InvMass > 0)
+	if( InvMass > 0)
 	{
-		LinVelocity+= Gravity * dt;
+		LinVelocity += Gravity * dt;
 	}
 
 	//

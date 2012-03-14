@@ -61,7 +61,7 @@ public:
 	int			MeshNum;
 
 	// Constructor and deconstructor
-	rBody( rGeometry &Geom, rMaterial &Mat);
+	rBody( rGeometry &geom, rMaterial &mat);
 	~rBody();
 
 	// Stepper function
