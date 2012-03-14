@@ -104,9 +104,9 @@ int main( int argc, char **argv )
 	Body1     .Position = rVector ( 250, 350);
 	Body2     .Position = rVector ( 250, 250);
 	Body3     .Position = rVector ( 250, 150);
-	Body4     .Position = rVector ( 550, 350);
-	Body5     .Position = rVector ( 550, 250);
-	Body6     .Position = rVector ( 550, 150);
+	Body4     .Position = rVector ( 570, 350);
+	Body5     .Position = rVector ( 570, 250);
+	Body6     .Position = rVector ( 570, 150);
 	BodyMain  .Orientation.setAngle(18);
 
 	// Add bodies to the world
