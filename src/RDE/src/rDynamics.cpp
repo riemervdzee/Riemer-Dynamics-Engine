@@ -33,77 +33,57 @@
  */
 void ProcessCollisionPoint( rBody* A, rBody* B, const rVector &P, rVector N, rReal dt)
 {
-	//If normal is screwed up, return
-	//if( N.Dot(N) < EPSILON)return;
+	// If normal is screwed up, return
+	// if( N.Dot(N) < EPSILON)return;
 
-	//Material properties. e = Elasticity, the jumpy-niss of objects when colliding. r = resistance, the drag when 2 bodies are touching.
+	// Material properties.
+	//   e = Elasticity, the jumpy-niss of objects when colliding
+	//   r = resistance, the drag when 2 bodies are touching.
+	//TODO use materials of the objects
 	rReal e = 0.4;
-	rReal r = 1 * dt;
+	//rReal u = 0.3;
 
-	//Normalize the normal
+	// Normalize the normal
 	N.Normalize();
 
-	//Position P relative to the bodies
+	// Position P relative to the bodies
 	rVector pA = P - A->Position;
 	rVector pB = P - B->Position;
 
-	//Rotation vector, who are perpendicular versions of pA and pB
+	// Rotation vector, who are perpendicular versions of pA and pB
 	rVector aA = pA;
 	rVector aB = pB;
 	aA.Perpendicular();
 	aB.Perpendicular();
 
-	//Velocities
+	// Velocities
 	rVector vA = A->LinVelocity + aA * A->AngVelocity;
 	rVector vB = B->LinVelocity + aB * B->AngVelocity;
 	rVector v  = vA - vB;
 
-	//Velocities relative to the Normal and Tangent
-	rVector vN = N.Dot( v) * N;
-	rVector vT = v - vN;
-
-	vT.Normalize();
-
-	//Pre-calculation, saves us some time.
+	// Pre-calculation, saves us some time.
 	rReal	kA = pA.Cross( N);
 	rReal	kB = pB.Cross( N);
 	rReal	uA = A->InvInertia * kA;
 	rReal	uB = B->InvInertia * kB;
 
-	//Denominator
+	// Denominator
 	rReal	Denom = A->InvMass + B->InvMass + (kA * uA) + (kB * uB);
 
-	//Impulse calculation
+	// Impulse calculation
 	rReal	fNumer = -(1 + e) * ( N.Dot( v));
 	rReal	f = fNumer / Denom;
 
-	//Friction calculation
-	rReal	cNumer = r * (vT.Dot( v));
-	rReal	c = cNumer / Denom;
-
-	//If i is positive, otherwise the bodies are moving from eachother / sliding
+	// If f is positive, otherwise the bodies are moving from each other / sliding
 	if ( f > EPSILON)
 	{
 		//The impulse
 		rVector impulse  = N * f;
 
-		//Apply impulses to boddies velocities
+		//Apply impulses to bodies velocities
 		A->LinVelocity += impulse * A->InvMass;
 		B->LinVelocity -= impulse * B->InvMass;
 		A->AngVelocity += f * uA;
 		B->AngVelocity -= f * uB;
-	}
-
-	// TODO implement correct friction
-	if( c > EPSILON)
-	{
-		//Friction vector
-		rVector friction = vT * -c;
-
-		//Apply impulses to boddies velocities
-		A->LinVelocity  += friction * A->InvMass;
-		B->LinVelocity  -= friction * B->InvMass;
-		A->AngVelocity  += c * uA;
-		B->AngVelocity  -= c * uB;
 	}
 }
