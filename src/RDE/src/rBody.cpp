@@ -25,41 +25,69 @@
 
 #include "../include/rSettings.h"
 #include "../include/rBody.h"
-
-
-//Prototypes
-rReal CalculateMass   (const rVector* A, int Anum, rReal density);
-rReal CalculateInertia(const rVector* A, int Anum, rReal mass);
+#include <math.h>
 
 /*
- * Calculates mass and intertia from the vertices attached to this body.
+ * Calculates mass and inertia from the vertices attached to this body.
  */
-rBody::rBody( rGeometry &geom, rMaterial &mat): AngVelocity(0), Force_A(0)
+rBody::rBody( rGeometry &geom, rMaterial &mat)
+	: AngVelocity(0), Force_A(0), Geom( &geom), Mat (&mat)
 {
-	// Assign variables
-	Geom = &geom;
-	Mat  = &mat;
+	// Make room for a local copy of the geometry
+	Mesh	   = new rVector[ geom.getNum()];
+	MeshNum	   = geom.getNum();
 
-	//
-	Mesh	= new rVector[ geom.getNum()];
-	MeshNum	= geom.getNum();
+	// Vectors of geometry
+	rVector *A = geom.getVertices();
 
+	// If density is infinite (0), put everything on 0
 	if(Mat->getDensity() == 0)
 	{
 		Mass = Inertia = InvMass = InvInertia = 0;
 	}
+	// If amount of vertices is 1 or 2
+	else if ( MeshNum < 3)
+	{
+		Mass    = 5.0f * mat.getDensity();
+		InvMass = 1 / Mass;
+		Inertia = InvInertia = 0;
+	}
+	// Otherwise calculate it
 	else
 	{
-		Mass	= CalculateMass(	Geom->getVertices(), Geom->getNum(), Mat->getDensity());
-		Inertia	= CalculateInertia(	Geom->getVertices(), Geom->getNum(), Mass);
+		rReal denom = 0.0f;
+		rReal numer = 0.0f;
 
+		// Go through the vertices, and calculate the Cross and Dot products
+		// This is required to get the total area and rotation-resistance
+		for( int j = MeshNum-1, i = 0; i < MeshNum; j = i, i++)
+		{
+			// The vectors
+			rVector P0 = A[j];
+			rVector P1 = A[i];
+
+			// Cross product and DOT
+			rReal a = fabs(P0.Cross(P1));
+			rReal b = (P1.Dot(P1) + P1.Dot(P0) + P0.Dot(P0));
+
+			// denom = denominator for Inertia
+			// numer = numerator for Inertia and used for the Mass (area)
+			denom += (a * b);
+			numer += a;
+		}
+
+		// Obtain the mass and inertia from the calculations made above
+		Mass    = numer * mat.getDensity() * 0.5f;
+		Inertia = (Mass / 6.0f) * (denom / numer);
+
+		// Get inverse of masses and inertia
 		InvMass		= 1/Mass;
 		InvInertia	= 1/Inertia;
 	}
 }
 
 /**
- * Cleans up
+ * Clean up
  */
 rBody::~rBody()
 {
@@ -132,61 +160,4 @@ void rBody::Step( rReal dt, rVector Gravity)
 		AngVelocity = (A - 0.001) * sign;
 	else
 		A = 0;*/
-}
-
-// taken from
-// http://www.physicsforums.com/showthread.php?s=e251fddad79b926d003e2d4154799c14&t=25293&page=2&pp=15
-// TODO rewrite!!
-rReal CalculateMass(const rVector* A, int Anum, rReal density)
-{
-	if (Anum < 2)
-		return 5.0f * density;
-
-	rReal mass = 0.0f;
-
-	for(int j = Anum-1, i = 0; i < Anum; j = i, i ++)
-	{
-		rVector P0 = A[j];
-		rVector P1 = A[i];
-#ifdef REAL_DOUBLE
-		mass +=  fabs( P0.Cross(P1));
-#else
-		mass +=  (float) fabs( P0.Cross(P1));
-#endif
-	}
-	if (Anum <= 2)
-		mass = 10.0f;
-
-	mass *= density * 0.5f;
-
-	return mass;
-}
-
-// taken from
-// http://www.physicsforums.com/showthread.php?s=e251fddad79b926d003e2d4154799c14&t=25293&page=2&pp=15
-rReal CalculateInertia(const rVector* A, int Anum, rReal mass)
-{
-	if (Anum == 1)	return 0.0f;
-
-	rReal denom = 0.0f;
-	rReal numer = 0.0f;
-
-	for(int j = Anum-1, i = 0; i < Anum; j = i, i ++)
-	{
-		rVector P0 = A[j];
-		rVector P1 = A[i];
-
-#ifdef REAL_DOUBLE
-		rReal a = fabs(P0.Cross(P1));
-#else
-		rReal a = (float) fabs(P0.Cross(P1));
-#endif
-		rReal b = (P1.Dot(P1) + P1.Dot(P0) + P0.Dot(P0));
-
-		denom += (a * b);
-		numer += a;
-	}
-	rReal inertia = (mass / 6.0f) * (denom / numer);
-
-	return inertia;
 }
