@@ -152,7 +152,7 @@ bool separatedByAxis(const rVector& AxisVector, rColinfo& CollisionInfo, rReal& 
 	rReal d1 = Bmin - Amax;
 
 	//No overlap detected
-	if(d0 < 0.0f || d1 > 0.0f) return true;
+	if(d0 <= 0.0f || d1 >= 0.0f) return true;
 
 	//Find the overlap according to the axis vector (scalar)
 	rReal overlap = (d0 < -d1)? d0 : d1;
