@@ -86,7 +86,7 @@ void rWorld::CollideAndStep( rReal dt)
 		if (iterations == 0)
 			push = true;
 
-		// Two loops to let everybody check with anyother
+		// Two loops to let everybody check with each other
 		for( unsigned int i = 0; i < StateArray.size(); i++)
 		{
 			for( unsigned int j = i+1; j < StateArray.size(); j++)
