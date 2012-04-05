@@ -27,9 +27,9 @@
 #define R_DE_H_
 
 // Version information
-#define VERSION_FULL "0.1.0"
+#define VERSION_FULL "0.2.0"
 #define VERSION_MAJOR 0
-#define VERSION_MINOR 1
+#define VERSION_MINOR 2
 #define VERSION_PATCH 0
 
 // Include basics
