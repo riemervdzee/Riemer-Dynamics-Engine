@@ -81,8 +81,9 @@ void rWorld::CollideAndStep( rReal dt)
 	for(int iterations = 0; iterations < ERI; iterations++)
 	{
 		// If we are at the last iteration, save collisions
+		// TODO fix this properly. Always add collisions but never duplicate
 		bool push = false;
-		if (iterations == ERI - 1)
+		if (iterations == 0)
 			push = true;
 
 		// Two loops to let everybody check with anyother
