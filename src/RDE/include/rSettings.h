@@ -27,7 +27,7 @@
 #define R_SETTINGS_H_
 
 // Should we use doubles instead of floats?
-//#define REAL_DOUBLE
+#define REAL_DOUBLE
 
 // Should we save the collision points?
 #define R_SAVE_COLLISIONPOINTS
