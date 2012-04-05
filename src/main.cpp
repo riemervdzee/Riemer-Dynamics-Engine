@@ -30,7 +30,7 @@
 using namespace std;
 
 // Create world
-rWorld World( rVector( 0, 0));
+rWorld World( rVector( 0, -125));
 
 /*rWorld World( rVector( 0, -125));
 rGeometry GeomWorld1, GeomWorld2, GeomMain, GeomBlocks, GeomBlocks2;
